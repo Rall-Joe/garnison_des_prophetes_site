@@ -576,7 +576,7 @@ nav ul li a.active {
 
 /* --- Événements --- */
 #evenements {
-    background: url('../images/fond1.jpg') no-repeat center center/cover fixed; /* Image de fond fixe */
+    background: url('../images/fond1.jpg') no-repeat center center/cover fixed;
     position: relative;
     color: var(--light-text-color);
     text-align: center;
@@ -589,7 +589,7 @@ nav ul li a.active {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.75); /* Overlay plus sombre pour lisibilité */
+    background-color: rgba(0, 0, 0, 0.75);
     z-index: 1;
 }
 
@@ -605,8 +605,8 @@ nav ul li a.active {
 
 #calendar {
     margin-top: 40px;
-    background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent */
-    padding: 50px; /* Plus de padding */
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 50px;
     border-radius: 15px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     color: var(--text-color);
@@ -628,6 +628,7 @@ nav ul li a.active {
     align-items: center;
     margin-bottom: 35px;
     gap: 30px;
+    flex-wrap: wrap;
 }
 
 .calendar-nav button {
@@ -653,23 +654,25 @@ nav ul li a.active {
     color: var(--primary-color);
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
+    text-align: center;
+    flex: 1;
 }
 
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 10px; /* Plus d'espace entre les jours */
-    max-width: 900px; /* Plus large */
+    gap: 10px;
+    max-width: 900px;
     margin: 0 auto;
     border: 1px solid #ddd;
     border-radius: 12px;
     overflow: hidden;
     background-color: #fefefe;
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.05); /* Ombre interne */
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
 }
 
 .calendar-grid div {
-    padding: 18px 12px; /* Plus de padding */
+    padding: 18px 12px;
     text-align: center;
     background-color: #fff;
     border: 1px solid #eee;
@@ -695,15 +698,15 @@ nav ul li a.active {
     background-color: var(--secondary-color);
     color: white;
     border-radius: 50%;
-    width: 50px; /* Plus grand */
-    height: 50px; /* Plus grand */
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 5px auto;
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    border: 2px solid white; /* Bordure blanche */
+    border: 2px solid white;
 }
 
 .calendar-grid .has-event {
@@ -711,24 +714,24 @@ nav ul li a.active {
     cursor: pointer;
     font-weight: bold;
     color: var(--primary-color);
-    background-color: #e6f7ff; /* Légère teinte pour les jours avec événement */
+    background-color: #e6f7ff;
 }
 
 .calendar-grid .has-event::after {
     content: '';
     display: block;
-    width: 10px; /* Plus grand cercle */
+    width: 10px;
     height: 10px;
-    background-color: var(--accent-color); /* Couleur différente pour l'événement */
+    background-color: var(--accent-color);
     border-radius: 50%;
     position: absolute;
-    top: 5px; /* Positionnement en haut à droite */
+    top: 5px;
     right: 5px;
     box-shadow: 0 0 8px rgba(231, 76, 60, 0.6);
 }
 
 .calendar-grid .has-event:hover {
-    background-color: #d1efff; /* Teinte plus prononcée au survol */
+    background-color: #d1efff;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
@@ -736,22 +739,74 @@ nav ul li a.active {
 #eventDetails {
     margin-top: 30px;
     padding: 20px 30px;
-    background-color: var(--bg-light); /* Utilise la couleur de fond claire générale */
+    background-color: var(--bg-light);
     border-left: 5px solid var(--secondary-color);
     border-radius: 10px;
     display: none;
     text-align: left;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+
 #eventDetails h4 {
     color: var(--primary-color);
     margin-bottom: 12px;
     font-size: 1.6em;
 }
+
 #eventDetails p {
     margin-bottom: 10px;
     line-height: 1.6;
 }
+
+/* --- RESPONSIVE MOBILE --- */
+@media screen and (max-width: 768px) {
+    #calendar {
+        padding: 25px;
+    }
+
+    .calendar-nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .calendar-nav button {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    #currentMonthYear {
+        font-size: 1.4em;
+    }
+
+    .calendar-grid {
+        grid-template-columns: repeat(7, 1fr);
+        font-size: 12px;
+    }
+
+    .calendar-grid div {
+        font-size: 0.9em;
+        padding: 10px 6px;
+    }
+
+    #calendar h3 {
+        font-size: 1.8em;
+    }
+
+    #eventDetails {
+        padding: 15px 20px;
+    }
+
+    #eventDetails h4 {
+        font-size: 1.3em;
+    }
+
+    #eventDetails p {
+        font-size: 0.95em;
+    }
+}
+
 
 /* --- Live Section --- */
 #live {
