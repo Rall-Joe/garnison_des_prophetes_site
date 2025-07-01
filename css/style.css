@@ -3,13 +3,13 @@
 
 /* Variables CSS pour faciliter la gestion des couleurs et transitions */
 :root {
-    --primary-color: #1a2c3a; /* Un bleu foncé encore plus profond, proche du marine */
-    --secondary-color: #3498db; /* Bleu ciel dynamique pour accents, boutons */
+    --primary-color: #00259A; /* Un bleu foncé encore plus profond, proche du marine */
+    --secondary-color: rgb(70, 181, 255); /* Bleu ciel dynamique pour accents, boutons */
     --accent-color: #e74c3c; /* Rouge pour alerte ou éléments importants */
     --text-color: #333;
     --light-text-color: #f4f4f4;
     --bg-light: #f0f2f5; /* Fond très clair, légèrement gris */
-    --bg-dark: #212529; /* Noir très foncé */
+    --bg-dark: #001046; /* Noir très foncé */
     --card-shadow: rgba(0, 0, 0, 0.08); /* Ombre légère pour les cartes */
     --border-color: #e0e0e0; /* Couleur de bordure douce */
     --transition-speed: 0.4s;
@@ -110,7 +110,7 @@ header .container {
 }
 
 header .logo img {
-    height: 65px; /* Légèrement plus grand */
+    height: 60px; /* Légèrement plus grand */
     transition: transform 0.3s ease;
 }
 
@@ -440,6 +440,7 @@ nav ul li a.active {
 }
 
 #presentation p {
+    
     color: var(--light-text-color); /* Ajoutez cette ligne pour les paragraphes */
     font-size: 1.15em;
     line-height: 1.8;
