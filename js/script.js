@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <h4>${event.title}</h4>
             <p><strong>Date :</strong> ${new Date(event.date).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             <p>${event.description}</p>
-            <p><a href="#contact" class="btn btn-small">Inscrivez-vous / Contactez-nous</a></p>
+            <p><a href="#contact" class="btn btn-small">Contactez-nous</a></p>
         `;
         eventDetails.style.display = 'block';
         eventDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll vers les détails
@@ -249,4 +249,39 @@ document.addEventListener('DOMContentLoaded', () => {
         sectionObserver.observe(section);
     });
 
+});
+
+
+
+
+// Fonction pour détecter la section visible et activer son lien
+document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll("nav ul li a");
+
+    function activateNavLink() {
+        let scrollPos = window.scrollY + 100; // +100 pour compenser le header
+
+        sections.forEach(section => {
+            if (scrollPos >= section.offsetTop && scrollPos < section.offsetTop + section.offsetHeight) {
+                navLinks.forEach(link => {
+                    link.classList.remove("active");
+                    if (link.getAttribute("href") === `#${section.id}`) {
+                        link.classList.add("active");
+                    }
+                });
+            }
+        });
+    }
+
+    window.addEventListener("scroll", activateNavLink);
+    activateNavLink(); // pour initialiser au chargement
+
+    // Active aussi le lien au clic
+    navLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            navLinks.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+        });
+    });
 });

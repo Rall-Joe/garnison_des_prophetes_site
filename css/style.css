@@ -110,7 +110,7 @@ header .container {
 }
 
 header .logo img {
-    height: 55px; /* Légèrement plus grand */
+    height: 65px; /* Légèrement plus grand */
     transition: transform 0.3s ease;
 }
 
@@ -157,6 +157,18 @@ header nav ul li a:hover,
 header nav ul li a.active {
     color: var(--secondary-color);
 }
+
+
+
+
+nav ul li a.active {
+    border-bottom: 2px solid var(--secondary-color);
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+
+
 
 /* Dropdown Menu (assurez-vous que le dropdown reste opaque ou semi-opaque) */
 .dropdown-content {
@@ -563,7 +575,7 @@ header nav ul li a.active {
 
 /* --- Événements --- */
 #evenements {
-    background: url('../images/events-bg.jpg') no-repeat center center/cover fixed; /* Image de fond fixe */
+    background: url('../images/fond1.jpg') no-repeat center center/cover fixed; /* Image de fond fixe */
     position: relative;
     color: var(--light-text-color);
     text-align: center;
@@ -756,7 +768,7 @@ header nav ul li a.active {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('../images/live-bg-pattern.png') repeat; /* Motif de fond subtil */
+    background: url('../images/fond2.jpg') repeat; /* Motif de fond subtil */
     opacity: 0.1;
     z-index: 1;
 }
@@ -840,7 +852,7 @@ header nav ul li a.active {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('../images/news-bg-subtle.png') no-repeat center center/cover; /* Motif discret */
+    background: url('../images/fond2.jpg') no-repeat center center/cover; /* Motif discret */
     opacity: 0.05;
     z-index: 0;
 }
