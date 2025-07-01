@@ -242,7 +242,7 @@ nav ul li a.active {
 
 /* --- Hero Section --- */
 .hero {
-    background: url('../images/hero-bg.jpg') no-repeat center center/cover; /* Assurez-vous que cette image existe */
+    background: url('../images/fond1.jpg') no-repeat center center/cover; /* Assurez-vous que cette image existe */
     color: var(--light-text-color);
     text-align: center;
     padding: 180px 20px 100px;
