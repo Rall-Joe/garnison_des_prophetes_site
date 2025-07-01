@@ -1,0 +1,1252 @@
+/* Importation de polices Google Fonts (Exemple: Open Sans, Raleway) */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Raleway:wght@400;700;800&display=swap');
+
+/* Variables CSS pour faciliter la gestion des couleurs et transitions */
+:root {
+    --primary-color: #1a2c3a; /* Un bleu foncé encore plus profond, proche du marine */
+    --secondary-color: #3498db; /* Bleu ciel dynamique pour accents, boutons */
+    --accent-color: #e74c3c; /* Rouge pour alerte ou éléments importants */
+    --text-color: #333;
+    --light-text-color: #f4f4f4;
+    --bg-light: #f0f2f5; /* Fond très clair, légèrement gris */
+    --bg-dark: #212529; /* Noir très foncé */
+    --card-shadow: rgba(0, 0, 0, 0.08); /* Ombre légère pour les cartes */
+    --border-color: #e0e0e0; /* Couleur de bordure douce */
+    --transition-speed: 0.4s;
+    --transition-ease: ease-in-out;
+}
+
+/* Règle de base pour la réinitialisation et la typographie */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.7; /* Légèrement augmenté pour meilleure lisibilité */
+    color: var(--text-color);
+    background-color: var(--bg-light); /* Nouveau fond d'arrière-plan pour le corps */
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    position: relative; /* Pour les arrière-plans animés */
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* --- Animations clés --- */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- Header --- */
+header {
+    background-color: transparent;
+    color: var(--light-text-color);
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: none;
+    transition: background-color var(--transition-speed) var(--transition-ease),
+                box-shadow var(--transition-speed) var(--transition-ease);
+}
+
+header.scrolled {
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo img {
+    height: 55px; /* Légèrement plus grand */
+    transition: transform 0.3s ease;
+}
+
+header .logo img:hover {
+    transform: scale(1.05);
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 35px; /* Plus d'espace */
+    position: relative;
+}
+
+header nav ul li a {
+    color: var(--light-text-color);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 0; /* Plus de padding pour la zone cliquable */
+    transition: color var(--transition-speed) var(--transition-ease);
+    position: relative;
+}
+
+header nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background-color: var(--secondary-color);
+    transition: width var(--transition-speed) var(--transition-ease);
+}
+
+header nav ul li a:hover::after,
+header nav ul li a.active::after {
+    width: 100%;
+}
+
+header nav ul li a:hover,
+header nav ul li a.active {
+    color: var(--secondary-color);
+}
+
+/* Dropdown Menu (assurez-vous que le dropdown reste opaque ou semi-opaque) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgba(26, 44, 58, 0.98); /* Presque opaque */
+    min-width: 200px; /* Plus large */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+    z-index: 1;
+    top: 100%;
+    left: 0;
+    border-top: 4px solid var(--secondary-color); /* Bordure plus épaisse */
+    border-radius: 0 0 10px 10px; /* Coins arrondis en bas */
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-content a {
+    color: var(--light-text-color);
+    padding: 14px 20px; /* Plus de padding */
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 400; /* Moins gras que les liens principaux */
+}
+
+.dropdown-content a:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+/* Hamburger Menu (Mobile) */
+.menu-toggle {
+    display: none; /* Masqué par défaut sur desktop */
+    flex-direction: column;
+    cursor: pointer;
+    width: 30px;
+    height: 20px;
+    justify-content: space-between;
+}
+
+.menu-toggle span {
+    height: 3px;
+    width: 100%;
+    background-color: var(--light-text-color);
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+
+/* --- Hero Section --- */
+.hero {
+    background: url('../images/hero-bg.jpg') no-repeat center center/cover; /* Assurez-vous que cette image existe */
+    color: var(--light-text-color);
+    text-align: center;
+    padding: 180px 20px 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 85vh; /* Plus grand pour un impact visuel */
+    position: relative;
+    overflow: hidden; /* Cache les débordements des particules/effets */
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Overlay plus sombre pour meilleure lisibilité */
+    z-index: 1;
+}
+
+/* Ajout d'un effet visuel subtil (par exemple, des étoiles ou des particules) */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.1) 80%); /* Exemple d'effet de halo subtil */
+    background-size: 200% 200%;
+    animation: moveGradient 20s linear infinite alternate; /* Anime le gradient */
+    z-index: 0; /* En dessous de l'overlay mais au-dessus de l'image */
+}
+
+@keyframes moveGradient {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeInSlideUp 1.2s var(--transition-ease) forwards; /* Animation plus lente */
+    animation-delay: 0.5s;
+    max-width: 900px;
+}
+
+.hero h1 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 4.8em; /* Texte encore plus grand */
+    margin-bottom: 30px;
+    text-shadow: 3px 3px 8px rgba(0,0,0,0.8); /* Ombre plus prononcée */
+    line-height: 1.1;
+    font-weight: 800; /* Très gras */
+}
+
+.hero p {
+    font-size: 1.4em; /* Texte plus grand */
+    margin-bottom: 50px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
+
+/* --- Boutons --- */
+.btn {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 16px 35px; /* Plus de padding */
+    text-decoration: none;
+    border-radius: 50px;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-weight: 700;
+    letter-spacing: 0.8px; /* Plus d'espacement */
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    margin: 0 15px; /* Espace entre les boutons */
+    position: relative;
+    overflow: hidden; /* Pour l'effet d'ondulation */
+}
+
+.btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-5px); /* Effet de soulèvement plus prononcé */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Effet d'ondulation (ripple effect) pour les boutons */
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(1) translate(-50%, -50%);
+    transition: width 0.5s ease-out, height 0.5s ease-out, opacity 0.5s ease-out;
+    pointer-events: none;
+}
+
+.btn:hover::after {
+    width: 200%;
+    height: 200%;
+    opacity: 1;
+}
+
+
+.btn-transparent {
+    background-color: transparent;
+    color: var(--light-text-color);
+    border: 2px solid var(--light-text-color);
+    padding: 14px 32px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+}
+
+.btn-transparent:hover {
+    background-color: var(--secondary-color);
+    color: white;
+    border-color: var(--secondary-color);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.btn-small {
+    padding: 10px 20px;
+    font-size: 0.95em;
+    border-radius: 30px;
+}
+
+
+/* --- Sections Générales --- */
+.section-padded {
+    padding: 120px 0; /* Plus de padding pour l'espace */
+    transition: opacity 0.8s var(--transition-ease), transform 0.8s var(--transition-ease); /* Animation d'apparition plus douce */
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.section-padded.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.section-padded h2 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 3.5em; /* Texte plus grand */
+    text-align: center;
+    margin-bottom: 70px; /* Plus d'espace */
+    color: var(--primary-color);
+    position: relative;
+    font-weight: 800; /* Très gras */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section-padded h2::after {
+    content: '';
+    display: block;
+    width: 120px; /* Ligne plus longue */
+    height: 6px; /* Ligne plus épaisse */
+    background-color: var(--secondary-color);
+    margin: 20px auto 0;
+    border-radius: 3px;
+}
+
+.bg-light {
+    background-color: var(--bg-light);
+}
+
+
+/* Nouvelle section de présentation */
+#presentation {
+    background: linear-gradient(to right, var(--primary-color), #2c3e50); /* Dégradé de fond */
+    color: var(--light-text-color); /* Assurez-vous que cette ligne est là */
+    text-align: center;
+    padding: 100px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+#presentation h2 {
+    color: white; /* Le titre aussi doit être blanc */
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7); /* Pour mieux le faire ressortir */
+    /* ... (gardez les autres styles de h2) ... */
+}
+
+#presentation p {
+    color: var(--light-text-color); /* Ajoutez cette ligne pour les paragraphes */
+    font-size: 1.15em;
+    line-height: 1.8;
+    max-width: 900px;
+    margin: 0 auto 25px auto;
+}
+
+
+#presentation::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 200px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.05); /* Forme abstraite */
+    border-radius: 50%;
+    animation: rotateShape 15s linear infinite;
+}
+
+#presentation::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0.07); /* Autre forme abstraite */
+    border-radius: 50%;
+    animation: rotateShape 18s linear infinite reverse;
+}
+
+@keyframes rotateShape {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+
+/* --- Tabs pour À Propos --- */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    gap: 15px;
+    animation: fadeIn 1s var(--transition-ease) forwards;
+    animation-delay: 0.3s;
+}
+
+.tab-button {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    border: none;
+    padding: 15px 30px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    margin: 0;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tab-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+.tab-button.active {
+    background-color: var(--secondary-color);
+    color: white;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    transform: translateY(-2px);
+}
+
+.tab-content {
+    display: none;
+    padding: 40px; /* Plus de padding */
+    border-radius: 15px; /* Coins plus arrondis */
+    background-color: white;
+    box-shadow: 0 8px 30px var(--card-shadow); /* Ombre plus douce */
+    line-height: 1.9; /* Plus d'interlignage */
+    margin-top: 30px;
+    animation: fadeIn 0.8s var(--transition-ease) forwards; /* Animation d'apparition */
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h3 {
+    font-family: 'Raleway', sans-serif;
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    font-size: 2.5em; /* Texte plus grand */
+    font-weight: 700;
+    text-align: center;
+}
+
+.tab-content h4 {
+    font-family: 'Raleway', sans-serif;
+    color: var(--secondary-color);
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.tab-content ul {
+    list-style: none;
+    margin-left: 0;
+    margin-top: 25px;
+    padding-left: 25px;
+}
+
+.tab-content ul li {
+    margin-bottom: 15px;
+    position: relative;
+    padding-left: 30px;
+}
+
+.tab-content ul li::before {
+    content: '★'; /* Puce personnalisée */
+    color: var(--secondary-color);
+    font-size: 1.4em;
+    position: absolute;
+    left: 0;
+    top: 0px; /* Ajuster la position verticale */
+}
+
+
+/* --- Événements --- */
+#evenements {
+    background: url('../images/events-bg.jpg') no-repeat center center/cover fixed; /* Image de fond fixe */
+    position: relative;
+    color: var(--light-text-color);
+    text-align: center;
+}
+
+#evenements::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Overlay plus sombre pour lisibilité */
+    z-index: 1;
+}
+
+#evenements .container {
+    position: relative;
+    z-index: 2;
+}
+
+#evenements h2 {
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+}
+
+#calendar {
+    margin-top: 40px;
+    background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent */
+    padding: 50px; /* Plus de padding */
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    color: var(--text-color);
+    animation: fadeInSlideUp 1s var(--transition-ease) forwards;
+    animation-delay: 0.5s;
+}
+
+#calendar h3 {
+    font-family: 'Raleway', sans-serif;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+.calendar-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 35px;
+    gap: 30px;
+}
+
+.calendar-nav button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.calendar-nav button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+#currentMonthYear {
+    font-size: 2em;
+    color: var(--primary-color);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px; /* Plus d'espace entre les jours */
+    max-width: 900px; /* Plus large */
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #fefefe;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.05); /* Ombre interne */
+}
+
+.calendar-grid div {
+    padding: 18px 12px; /* Plus de padding */
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    font-weight: 500;
+    font-size: 1.15em;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.calendar-grid .day-name {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    padding: 18px 12px;
+    border-radius: 0;
+}
+
+.calendar-grid .empty-day {
+    background-color: #f7f7f7;
+}
+
+.calendar-grid .current-day {
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 50%;
+    width: 50px; /* Plus grand */
+    height: 50px; /* Plus grand */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px auto;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    border: 2px solid white; /* Bordure blanche */
+}
+
+.calendar-grid .has-event {
+    position: relative;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--primary-color);
+    background-color: #e6f7ff; /* Légère teinte pour les jours avec événement */
+}
+
+.calendar-grid .has-event::after {
+    content: '';
+    display: block;
+    width: 10px; /* Plus grand cercle */
+    height: 10px;
+    background-color: var(--accent-color); /* Couleur différente pour l'événement */
+    border-radius: 50%;
+    position: absolute;
+    top: 5px; /* Positionnement en haut à droite */
+    right: 5px;
+    box-shadow: 0 0 8px rgba(231, 76, 60, 0.6);
+}
+
+.calendar-grid .has-event:hover {
+    background-color: #d1efff; /* Teinte plus prononcée au survol */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#eventDetails {
+    margin-top: 30px;
+    padding: 20px 30px;
+    background-color: var(--bg-light); /* Utilise la couleur de fond claire générale */
+    border-left: 5px solid var(--secondary-color);
+    border-radius: 10px;
+    display: none;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+#eventDetails h4 {
+    color: var(--primary-color);
+    margin-bottom: 12px;
+    font-size: 1.6em;
+}
+#eventDetails p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+/* --- Live Section --- */
+#live {
+    background: linear-gradient(to right, #0d1a24, var(--primary-color)); /* Dégradé sombre */
+    color: var(--light-text-color);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+#live::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/live-bg-pattern.png') repeat; /* Motif de fond subtil */
+    opacity: 0.1;
+    z-index: 1;
+}
+
+#live .container {
+    position: relative;
+    z-index: 2;
+}
+
+#live h2 {
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+}
+
+.live-stream-placeholder {
+    margin-top: 40px;
+    background-color: rgba(255, 255, 255, 0.05); /* Arrière-plan sombre semi-transparent */
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: fadeIn 1s var(--transition-ease) forwards;
+    animation-delay: 0.6s;
+}
+
+.live-stream-placeholder iframe {
+    max-width: 100%;
+    height: 550px; /* Hauteur ajustée */
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.live-stream-placeholder iframe:hover {
+    transform: scale(1.01);
+}
+
+.live-stream-placeholder p {
+    margin-top: 30px;
+    font-style: italic;
+    color: #bbb; /* Couleur de texte plus claire */
+    font-size: 1.1em;
+}
+
+.live-stream-placeholder .btn-small {
+    margin-top: 30px;
+    background-color: var(--secondary-color); /* Assurez-vous que le bouton est visible */
+    color: white;
+}
+
+
+/* --- Actualités --- */
+#actualites {
+    background-color: var(--bg-light); /* Utilise le fond clair par défaut */
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Min-width plus grand */
+    gap: 50px; /* Plus d'espace */
+    margin-top: 50px;
+}
+
+.news-item {
+    background-color: white;
+    padding: 35px; /* Plus de padding */
+    border-radius: 15px;
+    box-shadow: 0 8px 30px var(--card-shadow);
+    transition: transform 0.4s var(--transition-ease), box-shadow 0.4s var(--transition-ease);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden; /* Pour l'image de fond subtile */
+    position: relative;
+}
+
+.news-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/news-bg-subtle.png') no-repeat center center/cover; /* Motif discret */
+    opacity: 0.05;
+    z-index: 0;
+}
+
+
+.news-item:hover {
+    transform: translateY(-12px); /* Effet de soulèvement plus prononcé */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.news-item h3 {
+    font-family: 'Raleway', sans-serif;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 2em; /* Texte plus grand */
+    font-weight: 700;
+    position: relative;
+    z-index: 1; /* Pour être au-dessus de l'arrière-plan */
+}
+
+.news-item p {
+    color: #555;
+    margin-bottom: 25px;
+    flex-grow: 1;
+    font-size: 1.05em;
+    position: relative;
+    z-index: 1;
+}
+
+.news-item a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 700;
+    align-self: flex-start;
+    transition: color 0.3s ease, transform 0.2s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.news-item a:hover {
+    color: var(--primary-color);
+    transform: translateX(5px); /* Petit décalage au survol */
+}
+
+/* --- Contact & Don --- */
+#contact {
+    background: linear-gradient(to bottom, var(--bg-light), #e0e2e6); /* Dégradé léger */
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Min-width plus grand */
+    gap: 70px; /* Plus d'espace */
+    margin-top: 50px;
+}
+
+.contact-form, .donation-info {
+    background-color: white;
+    padding: 50px; /* Plus de padding */
+    border-radius: 15px;
+    box-shadow: 0 8px 30px var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-form:hover, .donation-info:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+}
+
+.contact-form h3, .donation-info h3 {
+    font-family: 'Raleway', sans-serif;
+    color: var(--primary-color);
+    margin-bottom: 35px;
+    font-size: 2.8em;
+    text-align: center;
+    font-weight: 700;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1.15em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="subject"], /* Ajouté pour le champ sujet */
+.form-group textarea {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Coins plus arrondis */
+    font-size: 1.05em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.25);
+    outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.contact-form .btn {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.3em;
+    margin-top: 20px;
+    border-radius: 10px; /* Bouton avec coins arrondis */
+}
+
+.donation-info p {
+    margin-bottom: 25px;
+    line-height: 1.8;
+    color: #555;
+    font-size: 1.1em;
+}
+
+.donation-info ul {
+    list-style: none;
+    margin-top: 30px;
+    padding-left: 0;
+}
+
+.donation-info ul li {
+    background-color: var(--bg-light);
+    padding: 20px;
+    border-left: 6px solid var(--secondary-color);
+    margin-bottom: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column; /* Pour mieux gérer les lignes de texte */
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.donation-info ul li strong {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.15em;
+    display: block; /* Pour s'assurer qu'il prend sa propre ligne */
+    margin-bottom: 5px;
+}
+.donation-info ul li span {
+    display: block; /* Pour les numéros de compte/mobile money */
+    font-size: 0.95em;
+    color: #666;
+}
+
+
+/* Style spécifique pour le bouton FlexPay */
+.btn-flexpay {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f7b731; /* Couleur typique de FlexPay ou une couleur vive */
+    color: white;
+    font-weight: 700;
+    padding: 16px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    border: none;
+    margin-top: 25px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-flexpay:hover {
+    background-color: #f5a000;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+.btn-flexpay img {
+    height: 28px; /* Taille de l'icône FlexPay plus grande */
+    width: 28px;
+}
+
+
+/* --- Footer --- */
+footer {
+    background-color: var(--bg-dark);
+    color: var(--light-text-color);
+    padding: 50px 0; /* Plus de padding */
+    text-align: center;
+    font-size: 1em;
+}
+
+footer .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.social-links {
+    margin-top: 20px;
+}
+
+.social-links a {
+    display: inline-block;
+    margin: 0 15px; /* Plus d'espace */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.social-links a:hover {
+    transform: translateY(-8px) scale(1.2); /* Effet plus prononcé */
+    opacity: 0.9;
+}
+
+.social-links img {
+    filter: brightness(0) invert(1); /* Rend les icônes noires blanches */
+    height: 35px; /* Icônes plus grandes */
+    width: 35px;
+    vertical-align: middle;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+    .hero h1 {
+        font-size: 3.8em;
+    }
+    .hero p {
+        font-size: 1.2em;
+    }
+    .section-padded h2 {
+        font-size: 2.8em;
+    }
+    #live iframe {
+        height: 450px;
+    }
+    .contact-grid {
+        grid-template-columns: 1fr; /* Passage à une seule colonne */
+        gap: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    header .container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    header nav {
+        order: 3;
+        flex-basis: 100%;
+        margin-top: 20px;
+        display: none;
+    }
+
+    header nav.active {
+        display: block;
+        background-color: var(--primary-color);
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border-radius: 0 0 12px 12px;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    header nav ul li {
+        margin: 12px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        border-top: none;
+        box-shadow: none;
+        background-color: rgba(26, 44, 58, 0.98);
+        border-radius: 0;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: none;
+    }
+
+    .dropdown.active .dropdown-content {
+        display: block;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .hero h1 {
+        font-size: 3em;
+    }
+
+    .hero p {
+        font-size: 1.1em;
+    }
+
+    .btn {
+        padding: 14px 28px;
+        font-size: 1.1em;
+        margin: 0 8px;
+    }
+
+    .section-padded {
+        padding: 80px 0;
+    }
+
+    .section-padded h2 {
+        font-size: 2.2em;
+        margin-bottom: 50px;
+    }
+
+    .tabs {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .tab-button {
+        width: 90%;
+        margin-bottom: 0;
+    }
+
+    .tab-content {
+        padding: 30px;
+    }
+
+    .tab-content h3 {
+        font-size: 2em;
+    }
+
+    .news-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    #live iframe {
+        height: 350px;
+    }
+
+    #calendar {
+        padding: 30px;
+    }
+
+    .calendar-grid {
+        gap: 5px;
+    }
+
+    .calendar-grid div {
+        padding: 12px 8px;
+        font-size: 1em;
+    }
+    .calendar-grid .day-name {
+        padding: 14px 8px;
+    }
+    .donation-info .btn-flexpay {
+        font-size: 1em;
+        padding: 14px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2.2em;
+    }
+    .hero p {
+        font-size: 0.95em;
+    }
+    .btn {
+        padding: 12px 25px;
+        font-size: 0.95em;
+    }
+    .section-padded h2 {
+        font-size: 1.8em;
+    }
+    .tab-button {
+        padding: 10px 18px;
+        font-size: 0.9em;
+    }
+    .contact-form, .donation-info {
+        padding: 30px;
+    }
+    #live iframe {
+        height: 250px;
+    }
+    .calendar-grid .current-day {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9em;
+    }
+    .calendar-grid .has-event::after {
+        width: 8px;
+        height: 8px;
+    }
+}
