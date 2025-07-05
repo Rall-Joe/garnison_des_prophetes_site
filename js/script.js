@@ -11,11 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gestion du menu hamburger
     const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('header nav');
+    const nav = document.querySelector('header nav'); // Référence correcte à la balise nav
 
     menuToggle.addEventListener('click', () => {
         nav.classList.toggle('active');
         menuToggle.classList.toggle('active');
+        // Si le menu mobile s'ouvre, assurez-vous que la modale de connexion est fermée
+        if (nav.classList.contains('active') && loginModal.style.display === 'flex') {
+            loginModal.style.display = 'none';
+        }
     });
 
     // Fermer le menu si on clique en dehors (pour mobile)
@@ -54,7 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Ouvrir l'onglet "Historique" par défaut au chargement
-    document.querySelector('.tab-button.active').click();
+    // Vérifie si le bouton actif existe avant de simuler le clic
+    const initialTabButton = document.querySelector('.tab-button.active');
+    if (initialTabButton) {
+        initialTabButton.click();
+    }
 
 
     // Gestion des événements du calendrier (comme précédemment)
@@ -73,11 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
         { date: '2025-07-22', title: 'Atelier de Prière Intense', description: 'Une soirée dédiée à l\'intercession et à la prière profonde pour la communauté.' },
         { date: '2025-08-05', title: 'Conférence Prophétique Internationale', description: 'Conférence avec des orateurs invités du monde entier sur le ministère prophétique.' },
         { date: '2025-08-18', title: 'Service Spécial de Guérison', description: 'Un culte axé sur la manifestation de la guérison divine.' },
-        { date: '2025-07-25', title: 'C\'est mon anniversaire', description: 'Bon anniversaire Joseph Marie Betyna que Dieu te garde.' }
-
+        { date: '2025-07-25', title: "C'est mon anniversaire", description: 'Bon anniversaire Joseph Marie Betyna que Dieu te garde.' }
     ];
 
     function renderCalendar() {
+        if (!calendarGrid) return; // S'assurer que l'élément existe
+
         calendarGrid.innerHTML = '';
         eventDetails.style.display = 'none'; // Cacher les détails à chaque nouveau rendu
 
@@ -107,9 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let day = 1; day <= daysInMonth; day++) {
             const dayDiv = document.createElement('div');
             dayDiv.textContent = day;
-            
+
             const fullDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            
+
             // Vérifier si c'est le jour actuel
             const today = new Date();
             if (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
@@ -140,25 +149,27 @@ document.addEventListener('DOMContentLoaded', () => {
         eventDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll vers les détails
     }
 
-    prevMonthBtn.addEventListener('click', () => {
-        currentMonth--;
-        if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
-        }
-        renderCalendar();
-    });
+    if (calendarGrid) { // Vérifie si l'élément du calendrier existe
+        prevMonthBtn.addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar();
+        });
 
-    nextMonthBtn.addEventListener('click', () => {
-        currentMonth++;
-        if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
-        }
-        renderCalendar();
-    });
+        nextMonthBtn.addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar();
+        });
 
-    renderCalendar(); // Initialisation du calendrier au chargement
+        renderCalendar(); // Initialisation du calendrier au chargement
+    }
 
 
     // --- Nouvelle fonction pour charger les actualités ---
@@ -199,6 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     function loadNews() {
+        if (!newsGrid) return; // S'assurer que l'élément existe
+
         newsGrid.innerHTML = ''; // Efface les actualités existantes
         // Trier les actualités par date, du plus récent au plus ancien
         const sortedNews = [...mockNews].sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -249,14 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sectionObserver.observe(section);
     });
 
-});
-
-
-
-
-// Fonction pour détecter la section visible et activer son lien
-document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll("section[id]");
+    // Fonction pour détecter la section visible et activer son lien
     const navLinks = document.querySelectorAll("nav ul li a");
 
     function activateNavLink() {
@@ -280,8 +286,213 @@ document.addEventListener("DOMContentLoaded", () => {
     // Active aussi le lien au clic
     navLinks.forEach(link => {
         link.addEventListener("click", () => {
-            navLinks.forEach(l => l.classList.remove("active"));
-            link.classList.add("active");
+            // Ne pas désactiver l'icône de connexion si elle est active
+            navLinks.forEach(l => {
+                if (!l.classList.contains('login-icon')) { // S'assure de ne pas toucher à l'icône
+                    l.classList.remove("active");
+                }
+            });
+            // Pour le lien cliqué, si ce n'est pas l'icône, ajoute 'active'
+            if (!link.classList.contains('login-icon')) {
+                 link.classList.add("active");
+            }
+
+            // Fermer le menu mobile après un clic sur un lien de navigation
+            if (nav.classList.contains('active')) {
+                nav.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
+    });
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+    // --- NOUVELLE PARTIE : Gestion de la fenêtre modale de connexion ---
+    const loginModal = document.getElementById('loginModal');
+    const openLoginModalBtn = document.getElementById('openLoginModal');
+    const closeButton = document.querySelector('.modal .close-button'); // Plus spécifique pour éviter les conflits
+    const loginForm = document.getElementById('loginForm');
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    const signupLink = document.getElementById('signupLink');
+
+    if (openLoginModalBtn && loginModal && closeButton && loginForm) {
+        // Quand l'utilisateur clique sur l'icône de connexion, ouvrir la modale
+        openLoginModalBtn.addEventListener('click', function(event) {
+            event.preventDefault(); // Empêche le lien de naviguer
+            loginModal.style.display = 'flex'; // Utilise flex pour centrer le contenu
+            // Assurez-vous que le menu mobile est fermé si la modale s'ouvre
+            if (nav.classList.contains('active')) {
+                nav.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
+
+        // Quand l'utilisateur clique sur le bouton de fermeture (x), fermer la modale
+        closeButton.addEventListener('click', function() {
+            loginModal.style.display = 'none';
+        });
+
+        // Quand l'utilisateur clique n'importe où en dehors de la modale, la fermer
+        window.addEventListener('click', function(event) {
+            if (event.target == loginModal) {
+                loginModal.style.display = 'none';
+            }
+        });
+
+        // Gérer la soumission du formulaire de connexion
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+            const emailOrPhone = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // --- INTÉGRATION FIREBASE : C'EST ICI QUE VOUS METTREZ VOTRE LOGIQUE D'AUTHENTIFICATION ---
+            console.log("Tentative de connexion avec :");
+            console.log("Email/Téléphone:", emailOrPhone);
+            console.log("Mot de passe:", password);
+
+            // Exemple de placeholder pour l'authentification Firebase (décommentez et remplacez par votre code Firebase)
+            /*
+            firebase.auth().signInWithEmailAndPassword(emailOrPhone, password)
+                .then((userCredential) => {
+                    // Connexion réussie
+                    const user = userCredential.user;
+                    console.log("Connecté avec succès:", user);
+                    alert("Connexion réussie ! Bienvenue " + (user.email || user.phoneNumber) + "!");
+                    loginModal.style.display = 'none'; // Fermer la modale
+                    // Ici, vous pourriez rediriger l'utilisateur ou mettre à jour l'interface (ex: afficher un bouton de déconnexion)
+                    // Pour la gestion des rôles (admin vs client), vous devrez soit :
+                    // 1. Utiliser des revendications personnalisées (custom claims) sur Firebase Auth.
+                    // 2. Avoir une collection 'users' dans Firestore qui stocke le rôle de chaque UID d'utilisateur.
+                    // Ensuite, rediriger en fonction du rôle.
+                    // Exemple de redirection (conceptuel):
+                    // if (user.isAdmin) {
+                    //    window.location.href = 'espace-manager.html';
+                    // } else {
+                    //    window.location.href = 'tableau-de-bord-client.html';
+                    // }
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.error("Erreur de connexion:", errorCode, errorMessage);
+                    alert("Erreur de connexion: " + errorMessage); // Afficher l'erreur à l'utilisateur
+                });
+            */
+            // Pour le moment, une alerte simple si Firebase n'est pas encore intégré
+            alert("Fonctionnalité de connexion en cours de développement. (Intégration Firebase)");
+            loginModal.style.display = 'none'; // Fermer la modale même si c'est juste un placeholder
+        });
+
+        // Gérer le clic sur "Mot de passe oublié ?"
+        if (forgotPasswordLink) {
+            forgotPasswordLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                // --- INTÉGRATION FIREBASE : LOGIQUE DE RÉINITIALISATION DE MOT DE PASSE ---
+                const emailToReset = prompt("Veuillez entrer votre email pour réinitialiser le mot de passe :");
+                if (emailToReset) {
+                    /*
+                    firebase.auth().sendPasswordResetEmail(emailToReset)
+                        .then(() => {
+                            alert("Un email de réinitialisation de mot de passe a été envoyé à " + emailToReset);
+                        })
+                        .catch((error) => {
+                            console.error("Erreur d'envoi de réinitialisation:", error);
+                            alert("Erreur lors de l'envoi de l'email de réinitialisation : " + error.message);
+                        });
+                    */
+                    alert("Fonctionnalité 'Mot de passe oublié' en cours de développement. (Intégration Firebase)");
+                }
+            });
+        }
+
+        // Gérer le clic sur "S'inscrire"
+        if (signupLink) {
+            signupLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                // --- INTÉGRATION FIREBASE : LOGIQUE D'INSCRIPTION ---
+                alert("Redirection vers la page d'inscription ou affichage du formulaire d'inscription. (Intégration Firebase)");
+                // Ici, vous pouvez soit :
+                // 1. Rediriger vers une page d'inscription dédiée : window.location.href = 'inscription.html';
+                // 2. Changer le contenu de la modale pour un formulaire d'inscription.
+                // 3. Demander directement email/mdp ici et appeler firebase.auth().createUserWithEmailAndPassword()
+                /*
+                const newEmail = prompt("Entrez votre email pour l'inscription :");
+                const newPassword = prompt("Choisissez un mot de passe (min. 6 caractères) :");
+                if (newEmail && newPassword) {
+                    firebase.auth().createUserWithEmailAndPassword(newEmail, newPassword)
+                        .then((userCredential) => {
+                            console.log("Inscription réussie:", userCredential.user);
+                            alert("Inscription réussie ! Vous pouvez maintenant vous connecter.");
+                            // Si nécessaire, ajouter des infos supplémentaires à Firestore pour le profil utilisateur
+                        })
+                        .catch((error) => {
+                            console.error("Erreur d'inscription:", error);
+                            alert("Erreur lors de l'inscription : " + error.message);
+                        });
+                }
+                */
+            });
+        }
+    }
+});
+
+
+// Fonction pour détecter la section visible et activer son lien (déplacé hors du DOMContentLoaded principal pour éviter les duplicatas si vous avez d'autres scripts)
+document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll("nav ul li a");
+
+    function activateNavLink() {
+        let scrollPos = window.scrollY + 100; // +100 pour compenser le header
+
+        sections.forEach(section => {
+            if (scrollPos >= section.offsetTop && scrollPos < section.offsetTop + section.offsetHeight) {
+                navLinks.forEach(link => {
+                    // S'assure de ne pas désactiver l'icône de connexion si elle est active
+                    if (!link.classList.contains('login-icon')) {
+                        link.classList.remove("active");
+                    }
+                    if (link.getAttribute("href") === `#${section.id}`) {
+                        link.classList.add("active");
+                    }
+                });
+            }
+        });
+    }
+
+    window.addEventListener("scroll", activateNavLink);
+    activateNavLink(); // pour initialiser au chargement
+
+    // Active aussi le lien au clic
+    navLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            navLinks.forEach(l => {
+                if (!l.classList.contains('login-icon')) { // S'assure de ne pas toucher à l'icône
+                    l.classList.remove("active");
+                }
+            });
+            // Pour le lien cliqué, si ce n'est pas l'icône, ajoute 'active'
+            if (!link.classList.contains('login-icon')) {
+                 link.classList.add("active");
+            }
+             // Fermer le menu mobile après un clic sur un lien de navigation
+            const nav = document.querySelector('header nav');
+            const menuToggle = document.querySelector('.menu-toggle');
+            if (nav.classList.contains('active')) {
+                nav.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
         });
     });
 });

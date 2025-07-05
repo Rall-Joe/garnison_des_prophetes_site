@@ -6,7 +6,8 @@
     <title>Garnison des Prophètes</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="images/logo_black.png" type="image/png">
-    </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
 <body>
     <header>
         <div class="container">
@@ -17,11 +18,23 @@
                 <ul>
                     <li><a href="#hero">Accueil</a></li>
                     <li><a href="#a-propos">À Propos</a></li>
-
                     <li><a href="#evenements">Événements</a></li>
                     <li><a href="#live">Live</a></li>
                     <li><a href="#actualites">Actualités</a></li>
-                    <li><a href="#contact">Contact & Don</a></li> </ul>
+                    <li><a href="#contact">Contact & Don</a></li>
+
+
+                <!--  
+                    <li>
+                        <a href="#" id="openLoginModal" class="login-icon" aria-label="Se connecter">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                    </li>
+
+                -->
+
+
+                </ul>
             </nav>
             <div class="menu-toggle">
                 <span></span>
@@ -104,7 +117,8 @@
                         <button id="nextMonth">Mois suivant</button>
                     </div>
                     <div class="calendar-grid" id="calendarGrid"></div>
-                    <div id="eventDetails"></div> </div>
+                    <div id="eventDetails"></div>
+                </div>
             </div>
         </section>
 
@@ -124,7 +138,7 @@
             <div class="container">
                 <h2>Nos Actualités</h2>
                 <div class="news-grid">
-                    </div>
+                </div>
             </div>
         </section>
 
@@ -187,23 +201,42 @@
         </section>
     </main>
 
-<footer>
-    <div class="container">
-        <p>© 2025 Garnison des Prophètes. Tous droits réservés.</p>
-        
-        <p style="margin-top: 10px; font-size: 0.9em;">
-            Site réalisé par <a href="https://www.justedoue.com" target="_blank" style="color: #ffffff; text-decoration: underline;">Juste Doué</a>.
-        </p>
+    <footer>
+        <div class="container">
+            <p>© 2025 Garnison des Prophètes. Tous droits réservés.</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                Site réalisé par <a href="https://www.justedoue.com" target="_blank" style="color: #ffffff; text-decoration: underline;">Juste Doué</a>.
+            </p>
+            <div class="social-links" style="margin-top: 15px;">
+                <a href="#"><img src="https://img.icons8.com/ios-filled/25/ffffff/facebook-new.png" alt="Facebook"></a>
+                <a href="#"><img src="https://img.icons8.com/ios-filled/25/ffffff/twitter-squared.png" alt="Twitter"></a>
+                <a href="#"><img src="https://img.icons8.com/ios-filled/25/ffffff/instagram-new.png" alt="Instagram"></a>
+                <a href="#"><img src="https://img.icons8.com/ios-filled/25/ffffff/youtube.png" alt="YouTube"></a>
+            </div>
+        </div>
+    </footer>
 
-        <div class="social-links" style="margin-top: 15px;">
-            <a href="#"><img src="https://img.icons8.com/ios-filled/25/ffffff/facebook-new.png" alt="Facebook"></a>
-            <a href="#"><img src="https://img.icons8.com/ios-filled/25/ffffff/twitter-squared.png" alt="Twitter"></a>
-            <a href="#"><img src="https://img.icons8.com/ios-filled/25/ffffff/instagram-new.png" alt="Instagram"></a>
-            <a href="#"><img src="https://img.icons8.com/ios-filled/25/ffffff/youtube.png" alt="YouTube"></a>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Se Connecter ou S'inscrire</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email ou Téléphone :</label>
+                    <input type="text" id="loginEmail" name="loginEmail" placeholder="Votre email ou numéro de téléphone" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Mot de passe :</label>
+                    <input type="password" id="loginPassword" name="loginPassword" placeholder="Votre mot de passe" required>
+                </div>
+                <button type="submit" class="btn">Se Connecter</button>
+                <p class="links">
+                    <a href="#" id="forgotPasswordLink">Mot de passe oublié ?</a><br>
+                    <a href="#" id="signupLink">Pas encore de compte ? S'inscrire</a>
+                </p>
+            </form>
         </div>
     </div>
-</footer>
-
 
     <script src="js/script.js"></script>
 </body>
