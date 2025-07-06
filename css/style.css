@@ -780,9 +780,9 @@ nav ul li a.active {
         font-size: 1.4em;
     }
 
-        .calendar-grid {
-        grid-template-columns: repeat(2, 1fr); /* Au lieu de 7 */
-        font-size: 12px;
+    .calendar-grid {
+        grid-template-columns: repeat(7, 1fr);
+        font-size: 10px;
     }
 
     .calendar-grid div {
