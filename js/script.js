@@ -77,11 +77,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Données d'événements factices (à remplacer par Firebase)
     const mockEvents = [
-        { date: '2025-07-15', title: 'Assemblée Générale Annuelle', description: 'Rencontre de tous les membres pour discuter des orientations futures et de nos projets.' },
-        { date: '2025-07-22', title: 'Atelier de Prière Intense', description: 'Une soirée dédiée à l\'intercession et à la prière profonde pour la communauté.' },
-        { date: '2025-08-05', title: 'Conférence Prophétique Internationale', description: 'Conférence avec des orateurs invités du monde entier sur le ministère prophétique.' },
-        { date: '2025-08-18', title: 'Service Spécial de Guérison', description: 'Un culte axé sur la manifestation de la guérison divine.' },
-        { date: '2025-07-25', title: "C'est mon anniversaire", description: 'Bon anniversaire Joseph Marie Betyna que Dieu te garde.' }
+        { 
+            date: '2025-07-15', 
+            title: 'Assemblée Générale Annuelle', 
+            description: 'Rencontre de tous les membres pour discuter des orientations futures et de nos projets.', 
+            image: 'images/hero-bg.jpg' },
+        { 
+            date: '2025-07-22', 
+            title: 'Atelier de Prière Intense', 
+            description: 'Une soirée dédiée à l\'intercession et à la prière profonde pour la communauté.', 
+            image: 'images/fond2.jpg' },
+        { 
+            date: '2025-08-05', 
+            title: 'Conférence Prophétique Internationale', 
+            description: 'Conférence avec des orateurs invités du monde entier sur le ministère prophétique.',
+            image: 'images/hero-bg.jpg' },
+        { 
+            date: '2025-08-20', 
+            title: 'Regar 25', 
+            description: 'Du 20 au 23 aout. Retraite de la Garnison où ta prière ne sera pas vaine, avec le prophète DjoGRACE à l\'athénée de la Gombe.', 
+            image: 'images/fond2.jpg' },
+        { 
+            date: '2025-07-25', 
+            title: "C'est mon anniversaire", 
+            description: 'Bon anniversaire Joseph Marie Betyna que Dieu te garde.', 
+            image: 'images/hero-bg.jpg' }
     ];
 
     function renderCalendar() {
@@ -138,16 +158,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function showEventDetails(event) {
-        eventDetails.innerHTML = `
-            <h4>${event.title}</h4>
-            <p><strong>Date :</strong> ${new Date(event.date).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-            <p>${event.description}</p>
-            <p><a href="#contact" class="btn btn-small">Contactez-nous</a></p>
-        `;
-        eventDetails.style.display = 'block';
-        eventDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll vers les détails
-    }
+ function showEventDetails(event) {
+    eventDetails.innerHTML = `
+        <a href="${event.image}" class="event-img-link" target="_blank">
+            <img src="${event.image}" alt="${event.title}" class="event-img">
+        </a>
+
+        <h4>${event.title}</h4>
+        <p><strong>Date :</strong> ${new Date(event.date).toLocaleDateString('fr-FR', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        })}</p>
+        <p>${event.description}</p>
+        <p><button class="btn btn-small" onclick="openRegistrationModal('${event.title}')">Ça m'intéresse</button></p>
+    `;
+
+    eventDetails.style.display = 'block';
+    eventDetails.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
 
     if (calendarGrid) { // Vérifie si l'élément du calendrier existe
         prevMonthBtn.addEventListener('click', () => {
@@ -305,146 +333,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
-
-    
-
-
-
-
-
-
-
-
-
-
-    // --- NOUVELLE PARTIE : Gestion de la fenêtre modale de connexion ---
-    const loginModal = document.getElementById('loginModal');
-    const openLoginModalBtn = document.getElementById('openLoginModal');
-    const closeButton = document.querySelector('.modal .close-button'); // Plus spécifique pour éviter les conflits
-    const loginForm = document.getElementById('loginForm');
-    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-    const signupLink = document.getElementById('signupLink');
-
-    if (openLoginModalBtn && loginModal && closeButton && loginForm) {
-        // Quand l'utilisateur clique sur l'icône de connexion, ouvrir la modale
-        openLoginModalBtn.addEventListener('click', function(event) {
-            event.preventDefault(); // Empêche le lien de naviguer
-            loginModal.style.display = 'flex'; // Utilise flex pour centrer le contenu
-            // Assurez-vous que le menu mobile est fermé si la modale s'ouvre
-            if (nav.classList.contains('active')) {
-                nav.classList.remove('active');
-                menuToggle.classList.remove('active');
-            }
-        });
-
-        // Quand l'utilisateur clique sur le bouton de fermeture (x), fermer la modale
-        closeButton.addEventListener('click', function() {
-            loginModal.style.display = 'none';
-        });
-
-        // Quand l'utilisateur clique n'importe où en dehors de la modale, la fermer
-        window.addEventListener('click', function(event) {
-            if (event.target == loginModal) {
-                loginModal.style.display = 'none';
-            }
-        });
-
-        // Gérer la soumission du formulaire de connexion
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Empêche le rechargement de la page
-            const emailOrPhone = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            // --- INTÉGRATION FIREBASE : C'EST ICI QUE VOUS METTREZ VOTRE LOGIQUE D'AUTHENTIFICATION ---
-            console.log("Tentative de connexion avec :");
-            console.log("Email/Téléphone:", emailOrPhone);
-            console.log("Mot de passe:", password);
-
-            // Exemple de placeholder pour l'authentification Firebase (décommentez et remplacez par votre code Firebase)
-            /*
-            firebase.auth().signInWithEmailAndPassword(emailOrPhone, password)
-                .then((userCredential) => {
-                    // Connexion réussie
-                    const user = userCredential.user;
-                    console.log("Connecté avec succès:", user);
-                    alert("Connexion réussie ! Bienvenue " + (user.email || user.phoneNumber) + "!");
-                    loginModal.style.display = 'none'; // Fermer la modale
-                    // Ici, vous pourriez rediriger l'utilisateur ou mettre à jour l'interface (ex: afficher un bouton de déconnexion)
-                    // Pour la gestion des rôles (admin vs client), vous devrez soit :
-                    // 1. Utiliser des revendications personnalisées (custom claims) sur Firebase Auth.
-                    // 2. Avoir une collection 'users' dans Firestore qui stocke le rôle de chaque UID d'utilisateur.
-                    // Ensuite, rediriger en fonction du rôle.
-                    // Exemple de redirection (conceptuel):
-                    // if (user.isAdmin) {
-                    //    window.location.href = 'espace-manager.html';
-                    // } else {
-                    //    window.location.href = 'tableau-de-bord-client.html';
-                    // }
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    console.error("Erreur de connexion:", errorCode, errorMessage);
-                    alert("Erreur de connexion: " + errorMessage); // Afficher l'erreur à l'utilisateur
-                });
-            */
-            // Pour le moment, une alerte simple si Firebase n'est pas encore intégré
-            alert("Fonctionnalité de connexion en cours de développement. (Intégration Firebase)");
-            loginModal.style.display = 'none'; // Fermer la modale même si c'est juste un placeholder
-        });
-
-        // Gérer le clic sur "Mot de passe oublié ?"
-        if (forgotPasswordLink) {
-            forgotPasswordLink.addEventListener('click', function(event) {
-                event.preventDefault();
-                // --- INTÉGRATION FIREBASE : LOGIQUE DE RÉINITIALISATION DE MOT DE PASSE ---
-                const emailToReset = prompt("Veuillez entrer votre email pour réinitialiser le mot de passe :");
-                if (emailToReset) {
-                    /*
-                    firebase.auth().sendPasswordResetEmail(emailToReset)
-                        .then(() => {
-                            alert("Un email de réinitialisation de mot de passe a été envoyé à " + emailToReset);
-                        })
-                        .catch((error) => {
-                            console.error("Erreur d'envoi de réinitialisation:", error);
-                            alert("Erreur lors de l'envoi de l'email de réinitialisation : " + error.message);
-                        });
-                    */
-                    alert("Fonctionnalité 'Mot de passe oublié' en cours de développement. (Intégration Firebase)");
-                }
-            });
-        }
-
-        // Gérer le clic sur "S'inscrire"
-        if (signupLink) {
-            signupLink.addEventListener('click', function(event) {
-                event.preventDefault();
-                // --- INTÉGRATION FIREBASE : LOGIQUE D'INSCRIPTION ---
-                alert("Redirection vers la page d'inscription ou affichage du formulaire d'inscription. (Intégration Firebase)");
-                // Ici, vous pouvez soit :
-                // 1. Rediriger vers une page d'inscription dédiée : window.location.href = 'inscription.html';
-                // 2. Changer le contenu de la modale pour un formulaire d'inscription.
-                // 3. Demander directement email/mdp ici et appeler firebase.auth().createUserWithEmailAndPassword()
-                /*
-                const newEmail = prompt("Entrez votre email pour l'inscription :");
-                const newPassword = prompt("Choisissez un mot de passe (min. 6 caractères) :");
-                if (newEmail && newPassword) {
-                    firebase.auth().createUserWithEmailAndPassword(newEmail, newPassword)
-                        .then((userCredential) => {
-                            console.log("Inscription réussie:", userCredential.user);
-                            alert("Inscription réussie ! Vous pouvez maintenant vous connecter.");
-                            // Si nécessaire, ajouter des infos supplémentaires à Firestore pour le profil utilisateur
-                        })
-                        .catch((error) => {
-                            console.error("Erreur d'inscription:", error);
-                            alert("Erreur lors de l'inscription : " + error.message);
-                        });
-                }
-                */
-            });
-        }
-    }
 });
 
 
@@ -469,7 +357,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
         });
+
+
+        // Gestion de l'ouverture du lightbox
+const lightboxImage = document.getElementById('lightboxImage');
+const lightboxOverlay = document.getElementById('lightboxOverlay');
+const imageLink = document.querySelector('.event-img-link');
+
+if (imageLink) {
+    imageLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        lightboxImage.src = imageLink.href;
+        lightboxOverlay.style.display = 'flex';
+    });
+}
+
     }
+
+    // Fermer le lightbox en cliquant sur le fond
+document.getElementById('lightboxOverlay').addEventListener('click', () => {
+    document.getElementById('lightboxOverlay').style.display = 'none';
+});
+
 
     window.addEventListener("scroll", activateNavLink);
     activateNavLink(); // pour initialiser au chargement
@@ -495,4 +404,113 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+});
+
+/* ------------------------------------------------------------------
+   INSCRIPTION À UN ÉVÈNEMENT  (formulaire -> WhatsApp)
+------------------------------------------------------------------ */
+// Les fonctions openRegistrationModal et closeRegistrationModal peuvent être définies globalement
+// pour être directement appelées par les attributs onclick dans le HTML.
+
+function openRegistrationModal(eventTitle) {
+    const registrationModal = document.getElementById('registrationModal');
+    const eventTitleInput = document.getElementById('eventTitle');
+
+    if (registrationModal && eventTitleInput) {
+        eventTitleInput.value = eventTitle;
+        registrationModal.style.display = 'flex'; // Utilisez 'flex' pour centrer la modale
+    } else {
+        console.error("Éléments de la modale d'inscription introuvables.");
+    }
+}
+
+function closeRegistrationModal() {
+    const registrationModal = document.getElementById('registrationModal');
+    if (registrationModal) {
+        registrationModal.style.display = 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // ... votre code existant pour le menu hamburger, le scroll, les onglets, le calendrier, les actualités, la modale de connexion ...
+
+    // --- MISE À JOUR DE showEventDetails ---
+    // Assurez-vous que le bouton "Ça m'intéresse" appelle correctement openRegistrationModal
+    function showEventDetails(event) {
+        const eventDetailsDiv = document.getElementById('eventDetails');
+        if (!eventDetailsDiv) return;
+
+        eventDetailsDiv.innerHTML = `
+            <a href="${event.image}" class="event-img-link" target="_blank">
+                <img src="${event.image}" alt="${event.title}" class="event-img">
+            </a>
+
+            <h4>${event.title}</h4>
+            <p><strong>Date :</strong> ${new Date(event.date).toLocaleDateString('fr-FR', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            })}</p>
+            <p>${event.description}</p>
+            <p><button class="btn btn-small" onclick="openRegistrationModal('${event.title.replace(/'/g, "\\'")}')">Ça m'intéresse</button></p>
+        `;
+        // Important: `event.title.replace(/'/g, "\\'")` est utilisé pour échapper les apostrophes
+        // dans le titre de l'événement si elles sont présentes, afin d'éviter de casser l'attribut `onclick`.
+
+        eventDetailsDiv.style.display = 'block';
+        eventDetailsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Gérer la soumission du formulaire d'inscription
+    const regForm = document.getElementById('registrationForm');
+    if (regForm) {
+        regForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            console.log("Formulaire soumis, préparation du message WhatsApp...");
+
+            const nom = document.getElementById('nom').value.trim();
+            const prenom = document.getElementById('prenom').value.trim();
+            const telephone = document.getElementById('telephone').value.trim();
+            const eglise = document.getElementById('eglise').value.trim();
+            const eventTitle = document.getElementById('eventTitle').value;
+
+            if (!nom || !prenom || !telephone || !eglise) {
+                alert('Veuillez remplir tous les champs.');
+                return;
+            }
+
+            // Validation simple du numéro de téléphone (facultatif mais recommandé)
+            // Assurez-vous que le numéro commence par un signe plus et contient uniquement des chiffres
+            const phoneRegex = /^\+\d{10,15}$/; // Exemple: + suivi de 10 à 15 chiffres
+            if (!phoneRegex.test(telephone)) {
+                alert('Veuillez entrer un numéro de téléphone valide au format international (ex: +243812345678).');
+                return;
+            }
+
+            const message = `Bonjour, je souhaite m'inscrire à l'événement : *${eventTitle}*
+Nom : ${nom}
+Prénom : ${prenom}
+Téléphone : ${telephone}
+Église : ${eglise}`;
+
+            // Numéro WhatsApp de destination
+            const whatsappNumber = '243843325605'; // Votre numéro WhatsApp sans le "+" initial
+
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+            // Ouvre le lien WhatsApp dans un nouvel onglet
+            window.open(whatsappURL, '_blank');
+
+            // Ferme la modale après l'envoi (optionnel, certains préfèrent la laisser ouverte avec un message de succès)
+            closeRegistrationModal();
+
+            // Réinitialiser le formulaire (optionnel)
+            regForm.reset();
+        });
+    }
+
+    // Ne rendez PAS ces fonctions globales ici si elles sont déjà déclarées hors de DOMContentLoaded
+    // Supprimez ces lignes :
+    // window.openRegistrationModal = openRegistrationModal;
+    // window.closeRegistrationModal = closeRegistrationModal;
+
+    // ... le reste de votre script ...
 });

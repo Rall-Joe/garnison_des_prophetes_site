@@ -127,7 +127,8 @@
                 <h2>Live : Cultes & Retraites</h2>
                 <p>Rejoignez-nous en direct pour nos cultes et retraites spirituelles. Restez connectés pour les annonces de diffusion.</p>
                 <div class="live-stream-placeholder">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/SJkumpG1p-k" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                   
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/PrDbA8Vom7Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     <p><i>(Ceci est un exemple de vidéo YouTube intégrée. Le lien sera mis à jour avec vos diffusions en direct.)</i></p>
                     <a href="https://www.youtube.com/@Generationjoel" target="_blank" class="btn btn-small">Voir les vidéos précédentes</a>
                 </div>
@@ -239,5 +240,42 @@
     </div>
 
     <script src="js/script.js"></script>
+    <!-- Lightbox pour l'image agrandie -->
+<div id="lightboxOverlay">
+  <img id="lightboxImage" src="" alt="Agrandissement">
+</div>
+
+<div id="registrationModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeRegistrationModal()">&times;</span>
+        <h2>Inscription à l'événement</h2>
+        <form id="registrationForm">
+            <input type="hidden" id="eventTitle" name="eventTitle">
+            
+            <div class="form-group">
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="prenom">Prénom :</label>
+                <input type="text" id="prenom" name="prenom" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="telephone">Téléphone (WhatsApp) :</label>
+                <input type="tel" id="telephone" name="telephone" placeholder="Ex: +243812345678" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="eglise">Église / Organisation :</label>
+                <input type="text" id="eglise" name="eglise" required>
+            </div>
+            
+            <button type="submit" class="btn">Valider l'inscription via WhatsApp</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>
