@@ -78,6 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Données d'événements factices (à remplacer par Firebase)
     const mockEvents = [
         { 
+            date: '2025-07-12', 
+            title: 'Montagne de prière', 
+            description: 'Thème: Dieu qui change la honte en gloire. À partir de 8h avec le Prophète DjoGRACE au Jardin Botanique de Kinshasa', 
+            image: 'images/events/montage_12jul2025.jpg' },
+        { 
             date: '2025-07-15', 
             title: 'Assemblée Générale Annuelle', 
             description: 'Rencontre de tous les membres pour discuter des orientations futures et de nos projets.', 
